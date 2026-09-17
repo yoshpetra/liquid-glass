@@ -51,12 +51,30 @@ function handleTouchEnd() {
   store.handleTouchEnd()
 }
 
+function handleMouseDown(event) {
+  if (event.button !== 0) return
+  if (event.target.closest('.liquid-glass-shell')) return
+  event.preventDefault()
+  store.handleDragStart(event.clientX)
+}
+
+function handleMouseMove(event) {
+  store.handleDragMove(event.clientX)
+}
+
+function handleMouseUp() {
+  store.handleDragEnd()
+}
+
 onMounted(() => {
   window.addEventListener('keydown', handleKeydown)
   window.addEventListener('wheel', handleWheel, { passive: true })
   window.addEventListener('touchstart', handleTouchStart, { passive: true })
   window.addEventListener('touchmove', handleTouchMove, { passive: true })
   window.addEventListener('touchend', handleTouchEnd)
+  window.addEventListener('mousedown', handleMouseDown)
+  window.addEventListener('mousemove', handleMouseMove)
+  window.addEventListener('mouseup', handleMouseUp)
 
   console.log("Type 'wubby' for a secret! :D")
 
@@ -69,6 +87,9 @@ onUnmounted(() => {
   window.removeEventListener('touchstart', handleTouchStart)
   window.removeEventListener('touchmove', handleTouchMove)
   window.removeEventListener('touchend', handleTouchEnd)
+  window.removeEventListener('mousedown', handleMouseDown)
+  window.removeEventListener('mousemove', handleMouseMove)
+  window.removeEventListener('mouseup', handleMouseUp)
 
   store.stopIntro()
 })

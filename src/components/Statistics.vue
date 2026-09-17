@@ -30,13 +30,26 @@
       <span class="meter-value">{{ Math.round(store.touchMomentum) }}</span>
     </div>
 
+    <div class="stat-row meter-row">
+      <span class="meter-label">drag</span>
+      <div class="meter-track">
+        <div class="meter-marker meter-marker-trigger" :style="{ left: dragTriggerPercent + '%' }"></div>
+        <div
+          class="meter-fill"
+          :class="{ 'meter-fill-locked': store.dragLocked }"
+          :style="{ width: dragPercent + '%' }"
+        ></div>
+      </div>
+      <span class="meter-value">{{ Math.round(store.dragDistance) }}</span>
+    </div>
+
     <div class="stat-row state-row">{{ stateLabel }}</div>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { useLiquidGlassStore, MOMENTUM_TRIGGER, MOMENTUM_RELEASE } from '../stores/liquidGlass'
+import { useLiquidGlassStore, MOMENTUM_TRIGGER, MOMENTUM_RELEASE, DRAG_TRIGGER } from '../stores/liquidGlass'
 
 const store = useLiquidGlassStore()
 
@@ -92,6 +105,10 @@ const releasePercent = (MOMENTUM_RELEASE / MAX_DISPLAY) * 100
 
 const wheelPercent = computed(() => toPercent(store.wheelMomentum))
 const touchPercent = computed(() => toPercent(store.touchMomentum))
+
+const MAX_DRAG_DISPLAY = 160
+const dragTriggerPercent = (DRAG_TRIGGER / MAX_DRAG_DISPLAY) * 100
+const dragPercent = computed(() => (Math.min(store.dragDistance, MAX_DRAG_DISPLAY) / MAX_DRAG_DISPLAY) * 100)
 
 const stateLabel = computed(() => {
   const glass = store.isLiquidGlass ? 'transparent' : 'default'

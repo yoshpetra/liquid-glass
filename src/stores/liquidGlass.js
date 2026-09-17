@@ -4,9 +4,20 @@ import { computed, ref } from 'vue'
 export const MOMENTUM_WINDOW_MS = 150
 export const MOMENTUM_TRIGGER = 130
 export const MOMENTUM_RELEASE = 15
+export const DRAG_TRIGGER = 80
 
 function createMomentumGate(momentumRef, lockedRef) {
   let samples = []
+  let idleTimer = null
+
+  function scheduleIdleRelease() {
+    clearTimeout(idleTimer)
+    idleTimer = setTimeout(() => {
+      samples = []
+      momentumRef.value = 0
+      lockedRef.value = false
+    }, MOMENTUM_WINDOW_MS)
+  }
 
   return function feed(dx, dy, now) {
     samples.push({ time: now, dx, dy })
@@ -22,6 +33,7 @@ function createMomentumGate(momentumRef, lockedRef) {
     }
     const momentum = Math.hypot(sumX, sumY)
     momentumRef.value = momentum
+    scheduleIdleRelease()
 
     if (lockedRef.value) {
       if (momentum < MOMENTUM_RELEASE) {
@@ -59,11 +71,14 @@ export const useLiquidGlassStore = defineStore('liquidGlass', () => {
   const wheelLocked = ref(false)
   const touchMomentum = ref(0)
   const touchLocked = ref(false)
+  const dragDistance = ref(0)
+  const dragLocked = ref(false)
 
   const wheelGate = createMomentumGate(wheelMomentum, wheelLocked)
   const touchGate = createMomentumGate(touchMomentum, touchLocked)
   let touchLastX = null
   let touchLastY = null
+  let dragStartX = null
   let introTimers = []
   let tabletMediaQuery = null
 
@@ -114,6 +129,30 @@ export const useLiquidGlassStore = defineStore('liquidGlass', () => {
     touchLastY = null
   }
 
+  function handleDragStart(clientX) {
+    dragStartX = clientX
+    dragLocked.value = false
+    dragDistance.value = 0
+  }
+
+  function handleDragMove(clientX) {
+    if (dragStartX === null) return
+    dragDistance.value = Math.abs(clientX - dragStartX)
+
+    if (dragLocked.value) return
+    if (!canToggleSize.value) return
+    if (dragDistance.value >= DRAG_TRIGGER) {
+      dragLocked.value = true
+      toggleSizeMode()
+    }
+  }
+
+  function handleDragEnd() {
+    dragStartX = null
+    dragLocked.value = false
+    dragDistance.value = 0
+  }
+
   function startIntro() {
     tabletMediaQuery = window.matchMedia(TABLET_BREAKPOINT_QUERY)
     supportsTabletSize.value = tabletMediaQuery.matches
@@ -141,12 +180,17 @@ export const useLiquidGlassStore = defineStore('liquidGlass', () => {
     wheelLocked,
     touchMomentum,
     touchLocked,
+    dragDistance,
+    dragLocked,
     toggleLiquidGlass,
     toggleSizeMode,
     handleWheel,
     handleTouchStart,
     handleTouchMove,
     handleTouchEnd,
+    handleDragStart,
+    handleDragMove,
+    handleDragEnd,
     startIntro,
     stopIntro,
   }

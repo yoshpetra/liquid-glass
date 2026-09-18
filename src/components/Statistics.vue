@@ -132,6 +132,8 @@ const stateLabel = computed(() => {
   font-family: monospace;
   font-size: 11px;
   pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .stat-row {

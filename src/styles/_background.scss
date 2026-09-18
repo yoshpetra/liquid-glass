@@ -1,0 +1,77 @@
+.pulsating-bg {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateZ(0);
+    width: var(--bg-width);
+    height: var(--bg-height);
+    border-radius: var(--bg-radius);
+    overflow: hidden;
+    contain: layout paint;
+    will-change: width, height;
+    transition: width var(--bg-transition-duration) var(--liquid-transition-easing),
+        height var(--bg-transition-duration) var(--liquid-transition-easing),
+        border-radius var(--bg-transition-duration) var(--liquid-transition-easing);
+}
+
+.pulsating-bg::before,
+.pulsating-bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        135deg,
+        var(--color-neon-pink),
+        var(--color-indigo-bloom),
+        var(--color-vivid-royal),
+        var(--color-electric-sapphire),
+        var(--color-sky-aqua),
+        var(--color-electric-sapphire),
+        var(--color-vivid-royal),
+        var(--color-indigo-bloom),
+        var(--color-neon-pink)
+    );
+    background-size: 400% 400%;
+    animation: wave-cycle 20s linear infinite;
+}
+
+.pulsating-bg::after {
+    animation-delay: -10s;
+}
+
+.hello-text {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(48px, 12vw, 120px);
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+    z-index: 20;
+}
+
+.hello-text.hello-text-visible {
+    opacity: 1;
+}
+
+@keyframes wave-cycle {
+    0% {
+        background-position: 0% 0%;
+        opacity: 0;
+    }
+    15% {
+        opacity: 1;
+    }
+    85% {
+        opacity: 1;
+    }
+    100% {
+        background-position: 100% 100%;
+        opacity: 0;
+    }
+}

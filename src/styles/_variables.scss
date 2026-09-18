@@ -1,0 +1,52 @@
+:root {
+    --color-neon-pink: #f72585;
+    --color-indigo-bloom: #7209b7;
+    --color-vivid-royal: #3a0ca3;
+    --color-electric-sapphire: #4361ee;
+    --color-sky-aqua: #4cc9f0;
+
+    --global-padding: 16px;
+    --liquid-transition-duration: 0.6s;
+    --liquid-transition-easing: cubic-bezier(0.22, 1, 0.36, 1);
+
+    --phone-max-width: 390px;
+    --phone-max-height: 844px;
+    --phone-radius: 48px;
+    --tablet-max-width: 820px;
+    --tablet-max-height: 1180px;
+    --page-radius: 32px;
+    --size-transition-duration: 0.7s;
+    --size-transition-easing: cubic-bezier(0.22, 1, 0.36, 1);
+
+    --shell-width: min(var(--phone-max-width), 85vw);
+    --shell-height: min(var(--phone-max-height), 80vh);
+
+    --bg-width: calc(100vw + var(--page-radius) * 2);
+    --bg-height: calc(100dvh + var(--page-radius) * 2);
+    --bg-radius: var(--page-radius);
+    --bg-transition-duration: var(--liquid-transition-duration);
+    --shell-bg: #fff;
+    --shell-border-color: transparent;
+    --shell-inset-shadow: none;
+    --shell-content-color: #000;
+    --shell-content-inverse: #fff;
+    --glass-surface-opacity: 0;
+}
+
+[data-size="tablet"] {
+    --shell-width: min(var(--tablet-max-width), 90vw);
+    --shell-height: min(var(--tablet-max-height), 85vh);
+}
+
+[data-glass="on"] {
+    --bg-width: var(--shell-width);
+    --bg-height: var(--shell-height);
+    --bg-radius: var(--phone-radius);
+    --bg-transition-duration: var(--size-transition-duration);
+    --shell-bg: transparent;
+    --shell-border-color: rgba(255, 255, 255, 0.4);
+    --shell-inset-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6);
+    --shell-content-color: #fff;
+    --shell-content-inverse: #000;
+    --glass-surface-opacity: 1;
+}

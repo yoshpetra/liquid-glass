@@ -1,11 +1,14 @@
 <template>
   <div
-    class="pulsating-bg"
-    :class="{ 'pulsating-bg-active': store.isLiquidGlass, 'size-tablet': store.sizeMode === 'tablet' }"
-  ></div>
-  <div class="hello-text" :class="{ 'hello-text-visible': store.showHello }">Hello :)</div>
-  <LiquidGlassContainer />
-  <Statistics v-if="showStatistics" />
+    class="app-root"
+    :data-size="store.sizeMode"
+    :data-glass="store.isLiquidGlass ? 'on' : 'off'"
+  >
+    <div class="pulsating-bg"></div>
+    <div class="hello-text" :class="{ 'hello-text-visible': store.showHello }">Hello :)</div>
+    <LiquidGlassContainer />
+    <Statistics v-if="showStatistics" />
+  </div>
 </template>
 
 <script setup>
@@ -66,6 +69,15 @@ function handleMouseUp() {
   store.handleDragEnd()
 }
 
+function handleWindowBlur() {
+  store.handleDragEnd()
+  store.handleTouchEnd()
+}
+
+function handleVisibilityChange() {
+  if (document.hidden) handleWindowBlur()
+}
+
 onMounted(() => {
   window.addEventListener('keydown', handleKeydown)
   window.addEventListener('wheel', handleWheel, { passive: true })
@@ -75,6 +87,8 @@ onMounted(() => {
   window.addEventListener('mousedown', handleMouseDown)
   window.addEventListener('mousemove', handleMouseMove)
   window.addEventListener('mouseup', handleMouseUp)
+  window.addEventListener('blur', handleWindowBlur)
+  document.addEventListener('visibilitychange', handleVisibilityChange)
 
   console.log("Type 'wubby' for a secret! :D")
 
@@ -90,6 +104,8 @@ onUnmounted(() => {
   window.removeEventListener('mousedown', handleMouseDown)
   window.removeEventListener('mousemove', handleMouseMove)
   window.removeEventListener('mouseup', handleMouseUp)
+  window.removeEventListener('blur', handleWindowBlur)
+  document.removeEventListener('visibilitychange', handleVisibilityChange)
 
   store.stopIntro()
 })

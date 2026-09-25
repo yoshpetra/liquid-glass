@@ -1,21 +1,32 @@
 <template>
   <div
     class="liquid-glass-shell"
+    ref="shellRef"
     :class="{ 'shell-visible': store.showPhone }"
     @click="store.toggleLiquidGlass()"
   >
     <div class="liquid-glass-container">
       <div class="glass-surface"></div>
       <NavigationBar />
+      <IconsScreen />
+      <Dock />
     </div>
   </div>
+  <ResizeHandle v-if="store.canToggleSize" edge="left" />
+  <ResizeHandle v-if="store.canToggleSize" edge="right" />
 </template>
 
 <script setup>
+import { provide, ref } from "vue";
 import { useLiquidGlassStore } from "../stores/liquidGlass";
 import NavigationBar from "./NavigationBar/NavigationBar.vue";
+import IconsScreen from "./IconsScreen/IconsScreen.vue";
+import Dock from "./IconsScreen/Dock/Dock.vue";
+import ResizeHandle from "./ResizeHandle/ResizeHandle.vue";
 
 const store = useLiquidGlassStore();
+const shellRef = ref(null);
+provide("shellRef", shellRef);
 </script>
 
 <style scoped>

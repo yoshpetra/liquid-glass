@@ -9,12 +9,15 @@ const time = ref('')
 let intervalId = null
 
 function updateTime() {
-  time.value = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false })
+  const now = new Date()
+  const hours = String(now.getHours()).padStart(2, '0')
+  const minutes = String(now.getMinutes()).padStart(2, '0')
+  time.value = `${hours}:${minutes}`
 }
 
 onMounted(() => {
   updateTime()
-  intervalId = setInterval(updateTime, 15000)
+  intervalId = setInterval(updateTime, 1000)
 })
 
 onUnmounted(() => {

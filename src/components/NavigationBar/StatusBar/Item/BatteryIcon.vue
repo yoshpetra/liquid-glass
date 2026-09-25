@@ -61,12 +61,7 @@
 import { computed } from "vue";
 import plugSvg from "@tabler/icons/outline/plug.svg?raw";
 import boltSvg from "@tabler/icons/filled/bolt.svg?raw";
-
-const innerSvg = (svg) =>
-  svg
-    .replace(/^[\s\S]*?<svg[^>]*>/, "")
-    .replace(/<\/svg>\s*$/, "")
-    .replace(/<path stroke="none"[^>]*\/>/, "");
+import { innerSvg } from "../../../../utils/svg";
 
 const plugIcon = innerSvg(plugSvg);
 const boltIcon = innerSvg(boltSvg);

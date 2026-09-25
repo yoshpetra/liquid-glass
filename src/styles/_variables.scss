@@ -6,6 +6,9 @@
     --color-sky-aqua: #4cc9f0;
 
     --global-padding: 16px;
+    --icon-size: 60px;
+    --icon-grid-gap: 18px;
+    --icon-move-duration: 0.9s;
     --liquid-transition-duration: 0.6s;
     --liquid-transition-easing: cubic-bezier(0.22, 1, 0.36, 1);
 
@@ -13,7 +16,6 @@
     --phone-max-height: 844px;
     --phone-radius: 48px;
     --tablet-max-width: 820px;
-    --tablet-max-height: 1180px;
     --page-radius: 32px;
     --size-transition-duration: 0.7s;
     --size-transition-easing: cubic-bezier(0.22, 1, 0.36, 1);
@@ -35,7 +37,6 @@
 
 [data-size="tablet"] {
     --shell-width: min(var(--tablet-max-width), 90vw);
-    --shell-height: min(var(--tablet-max-height), 85vh);
 }
 
 [data-glass="on"] {

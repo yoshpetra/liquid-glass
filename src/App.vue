@@ -1,7 +1,7 @@
 <template>
   <div
     class="app-root"
-    :data-size="store.sizeMode"
+    :data-size="store.appliedSizeMode"
     :data-glass="store.isLiquidGlass ? 'on' : 'off'"
   >
     <div class="pulsating-bg"></div>
@@ -38,57 +38,8 @@ function handleKeydown(event) {
   }
 }
 
-function handleWheel(event) {
-  store.handleWheel(event.deltaX, event.deltaY)
-}
-
-function handleTouchStart(event) {
-  store.handleTouchStart(event.touches[0].clientX, event.touches[0].clientY)
-}
-
-function handleTouchMove(event) {
-  store.handleTouchMove(event.touches[0].clientX, event.touches[0].clientY)
-}
-
-function handleTouchEnd() {
-  store.handleTouchEnd()
-}
-
-function handleMouseDown(event) {
-  if (event.button !== 0) return
-  if (event.target.closest('.liquid-glass-shell')) return
-  event.preventDefault()
-  store.handleDragStart(event.clientX)
-}
-
-function handleMouseMove(event) {
-  store.handleDragMove(event.clientX)
-}
-
-function handleMouseUp() {
-  store.handleDragEnd()
-}
-
-function handleWindowBlur() {
-  store.handleDragEnd()
-  store.handleTouchEnd()
-}
-
-function handleVisibilityChange() {
-  if (document.hidden) handleWindowBlur()
-}
-
 onMounted(() => {
   window.addEventListener('keydown', handleKeydown)
-  window.addEventListener('wheel', handleWheel, { passive: true })
-  window.addEventListener('touchstart', handleTouchStart, { passive: true })
-  window.addEventListener('touchmove', handleTouchMove, { passive: true })
-  window.addEventListener('touchend', handleTouchEnd)
-  window.addEventListener('mousedown', handleMouseDown)
-  window.addEventListener('mousemove', handleMouseMove)
-  window.addEventListener('mouseup', handleMouseUp)
-  window.addEventListener('blur', handleWindowBlur)
-  document.addEventListener('visibilitychange', handleVisibilityChange)
 
   console.log("Type 'wubby' for a secret! :D")
 
@@ -97,15 +48,6 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener('keydown', handleKeydown)
-  window.removeEventListener('wheel', handleWheel)
-  window.removeEventListener('touchstart', handleTouchStart)
-  window.removeEventListener('touchmove', handleTouchMove)
-  window.removeEventListener('touchend', handleTouchEnd)
-  window.removeEventListener('mousedown', handleMouseDown)
-  window.removeEventListener('mousemove', handleMouseMove)
-  window.removeEventListener('mouseup', handleMouseUp)
-  window.removeEventListener('blur', handleWindowBlur)
-  document.removeEventListener('visibilitychange', handleVisibilityChange)
 
   store.stopIntro()
 })

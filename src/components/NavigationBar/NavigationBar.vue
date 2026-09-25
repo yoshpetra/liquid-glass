@@ -21,7 +21,7 @@ import CameraNotch from "./CameraNotch/CameraNotch.vue";
   flex-shrink: 0;
   height: 28px;
   padding: 0 6px 0 38px;
-  color: var(--shell-content-color);
+  color: #fff;
   font-size: 15px;
   font-weight: 600;
   letter-spacing: -0.01em;

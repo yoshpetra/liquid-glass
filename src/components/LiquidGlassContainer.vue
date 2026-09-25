@@ -59,7 +59,10 @@ provide("shellRef", shellRef);
 .liquid-glass-container {
   position: absolute;
   inset: 0;
-  background: var(--shell-bg);
+  background-color: var(--shell-bg);
+  background-image: var(--shell-bg-image);
+  background-size: cover;
+  background-position: center;
   border-radius: var(--phone-radius);
   overflow: hidden;
   clip-path: inset(0 round var(--phone-radius));
@@ -72,7 +75,7 @@ provide("shellRef", shellRef);
   box-shadow: var(--shell-inset-shadow);
   contain: layout paint;
   transition:
-    background var(--liquid-transition-duration) var(--liquid-transition-easing),
+    background-color var(--liquid-transition-duration) var(--liquid-transition-easing),
     box-shadow var(--liquid-transition-duration) var(--liquid-transition-easing),
     border-color var(--liquid-transition-duration)
       var(--liquid-transition-easing);

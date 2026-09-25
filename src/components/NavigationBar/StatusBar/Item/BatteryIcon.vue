@@ -105,6 +105,6 @@ const fillColor = computed(() =>
 }
 
 .plug-glyph {
-  stroke: var(--shell-content-inverse);
+  stroke: #000;
 }
 </style>

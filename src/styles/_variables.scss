@@ -28,10 +28,10 @@
     --bg-radius: var(--page-radius);
     --bg-transition-duration: var(--liquid-transition-duration);
     --shell-bg: #fff;
+    --shell-bg-image: url('../assets/wallpapers/ands-mahardika-wallpaper.jpg');
     --shell-border-color: transparent;
     --shell-inset-shadow: none;
     --shell-content-color: #000;
-    --shell-content-inverse: #fff;
     --glass-surface-opacity: 0;
 }
 
@@ -45,9 +45,9 @@
     --bg-radius: var(--phone-radius);
     --bg-transition-duration: var(--size-transition-duration);
     --shell-bg: transparent;
+    --shell-bg-image: none;
     --shell-border-color: rgba(255, 255, 255, 0.4);
     --shell-inset-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.6);
     --shell-content-color: #fff;
-    --shell-content-inverse: #000;
     --glass-surface-opacity: 1;
 }
